@@ -1,0 +1,4 @@
+npm create vite@latest . -- --template react  
+npm install
+
+npm install tailwindcss @tailwindcss/vite
