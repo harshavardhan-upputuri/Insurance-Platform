@@ -1,0 +1,68 @@
+ 
+
+.container{
+  display: inline-block;
+  margin-left: 300px;
+}
+.text{
+  font-size: 5em;
+  letter-spacing: 10px;
+  font-family: monospace;
+  border-right:5px solid;
+  width: 760px;
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 2s steps(16), cursor .4s step-end infinite alternate;
+   
+}
+
+@keyframes cursor{
+  50% {border-color:transparent}
+}
+@keyframes typing{
+  from {width: 0;}
+}
+@keyframes rotateTextAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotateText {
+  animation: rotateTextAnimation 12s linear infinite;
+}
+ 
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+@keyframes movetext{
+  0%{
+    transform:translateX(80vw);
+  }
+  100%{
+    transform:translateX(20vw);
+  }
+}
+.animate-text{
+  animation: movetext 6s linear forwards;
+}
+
+@keyframes movemotor{
+  0%{
+    transform:translateX(-5vw);
+  }
+  100%{
+    transform:translateX(20vw);
+  }
+}
+.animate-motor{
+  animation: movemotor 4s ease-in-out forwards;
+}
