@@ -1,0 +1,64 @@
+package com.insurance.model;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import com.insurance.domain.ApplicationStatus;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ApplicationForm {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Product policy;  // the policy being applied for
+
+    private String firstName;
+    private String lastName;
+    private String occupation;
+    private String email;
+    private String phone;
+    private double income;
+    private LocalDate dateOfBirth;
+    private String gender;
+    private boolean married;
+    private String address;
+    private String pinCode;
+
+    @Lob
+    private byte[] aadharFile;
+
+    @Lob
+    private byte[] panFile;     
+
+    @ManyToOne
+    private Category category;
+    private LocalDateTime appliedDate = LocalDateTime.now();
+
+
+    private ApplicationStatus status = ApplicationStatus.PENDING; 
+
+    @ManyToOne
+    private Seller seller;   
+}
+

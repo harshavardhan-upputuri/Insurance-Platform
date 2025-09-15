@@ -1,12 +1,14 @@
 package com.insurance.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,23 +16,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class VerificationCode {
+public class Offer {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String otp;
+    private String Code;
 
-    private String email;
+    private double discountPercentage;
 
-    @OneToOne
-    private User user;
+    private LocalDate validityStartDate;
+    private LocalDate validityEndDate;
 
-    LocalDateTime ExpiryTime;
+    private double minimumOrderValue;
+
+    private boolean isActive;
+
+    @ManyToMany(mappedBy = "usedOffers")
+    private Set<User> usedByUsers=new HashSet<>();
 }

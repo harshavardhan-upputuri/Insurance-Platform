@@ -1,11 +1,14 @@
 package com.insurance.model;
 
-import java.time.LocalDateTime;
+import com.insurance.domain.PaymentMethod;
+import com.insurance.domain.PaymentOrderStatus;
+ 
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -19,18 +22,25 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class VerificationCode {
+public class PaymentOrder {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String otp;
+    private Long amount;
 
-    private String email;
+    private PaymentOrderStatus status=PaymentOrderStatus.PENDING;
+    
 
-    @OneToOne
+    private PaymentMethod paymentMethod;
+
+    private String paymentLinkId;
+
+    @ManyToOne
     private User user;
 
-    LocalDateTime ExpiryTime;
+    @OneToOne
+    private InsuranceOrder insuranceOrder;
+
 }

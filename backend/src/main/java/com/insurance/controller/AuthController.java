@@ -1,71 +1,59 @@
 package com.insurance.controller;
 
-import com.insurance.config.JwtProvider;
+import com.insurance.Request.LoginOtpRequest;
+import com.insurance.Request.LoginRequest;
+import com.insurance.Request.SignupRequest;
+import com.insurance.Response.ApiResponse;
+import com.insurance.Response.AuthResponse;
+ 
 import com.insurance.domain.USER_ROLE;
-import com.insurance.model.User;
-import com.insurance.repository.UserRepository;
 
+import com.insurance.service.AuthService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
+ 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+ 
 
 @RestController
 @RequestMapping("/auth")
-public class AuthController {
+public class AuthController {   
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    @Autowired 
+    private AuthService authService; 
 
-    @Autowired
-    private JwtProvider jwtTokenProvider;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    // 🔹 LOGIN
+    //  LOGIN
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password)
-        );
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws Exception {
+        AuthResponse authResponse=authService.signing(loginRequest);      
 
-        String token = jwtTokenProvider.generateJwtToken(authentication);
-
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        response.put("email", email);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authResponse);
     }
 
-    // 🔹 SIGNUP
+    //  SIGNUP
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestParam String email,
-                                    @RequestParam String password,
-                                    @RequestParam(defaultValue = "ROLE_CUSTOMER") USER_ROLE role) {
+    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) throws Exception {
 
-        if (userRepository.findByEmail(email) != null) {
-            return ResponseEntity.badRequest().body("User already exists with email: " + email);
-        }
+        String jwt= authService.createUser(signupRequest);
 
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password)); // store encoded password
-        user.setRole(role);
+        AuthResponse authResponse=new AuthResponse();
+        authResponse.setJwt(jwt);
+        authResponse.setMessage("created user successfully");
+        authResponse.setRole(USER_ROLE.ROLE_CUSTOMER);
+       return ResponseEntity.ok(authResponse);
+    }
 
-        userRepository.save(user);
 
-        return ResponseEntity.ok("User registered successfully with email: " + email);
+    // Send Otp
+    @PostMapping("/send-otp")
+    public ResponseEntity<ApiResponse> sendOtp(@RequestBody LoginOtpRequest req) throws Exception{
+        authService.sendLoginOtp(req.getEmail(), req.getRole());
+
+        String mes="Otp Sent Success";
+        ApiResponse apiResponse=new ApiResponse();
+        apiResponse.setMessage(mes);
+        return ResponseEntity.ok(apiResponse);
     }
 }

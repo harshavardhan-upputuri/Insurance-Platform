@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AppConfig {
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http,OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()   
@@ -35,8 +35,10 @@ public class AppConfig {
                         .anyRequest().permitAll())
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()));
-
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // .oauth2Login(oauth -> oauth.successHandler(oAuth2LoginSuccessHandler))
+                //   .httpBasic(basic -> basic.disable())
+                  ;
         return http.build();
     }
 

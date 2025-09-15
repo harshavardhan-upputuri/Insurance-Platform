@@ -1,12 +1,16 @@
 package com.insurance.model;
 
+ 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,21 +20,30 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
-public class VerificationCode {
-    
+public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String otp;
+    @Column(nullable = false)
+    private String reviewText;
 
-    private String email;
+    @Column(nullable = false)
+    private double rating;
 
-    @OneToOne
+    @JsonIgnore
+    @ManyToOne
+    private Product product;
+
+    @ManyToOne
     private User user;
 
-    LocalDateTime ExpiryTime;
+    @Column(nullable = false)
+    private LocalDateTime createdAt=LocalDateTime.now();
+
+
 }

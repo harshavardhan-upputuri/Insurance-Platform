@@ -1,11 +1,11 @@
 package com.insurance.model;
-
-import java.time.LocalDateTime;
+import java.util.*;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -16,21 +16,18 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
-public class VerificationCode {
+public class Wishlist {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String otp;
-
-    private String email;
-
     @OneToOne
     private User user;
 
-    LocalDateTime ExpiryTime;
+    @OneToMany
+    private Set<Product> products=new HashSet<>();
 }
