@@ -73,7 +73,7 @@ public class SellerController {
         verificationCodeRepository.save(verificationCode);
         String subject= "Ecommerce Email verification Code";
         String text="Welcome to Ecommerce ,verify you account using this link ";
-        String frontend_url="http://localhost:3000/verify-seller/";
+        String frontend_url="https://insuranceplatform.vercel.app/verify-seller/";
         emailService.sendVerificationOtpEmail(seller.getEmail(), verificationCode.getOtp(), subject, text+frontend_url);
 
         return new ResponseEntity<>(savedSeller,HttpStatus.CREATED);

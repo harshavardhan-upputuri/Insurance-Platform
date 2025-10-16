@@ -108,7 +108,7 @@ public class PaymentOrderService {
             notify.put("email", true);
             paymentLinkRequest.put("notify", notify);
 
-            paymentLinkRequest.put("callback_url", "http://localhost:5173/payment-success/" + orderId);
+            paymentLinkRequest.put("callback_url", "https://insuranceplatform.vercel.app/payment-success/" + orderId);
             paymentLinkRequest.put("callback_method", "get");
 
             PaymentLink paymentLink = razorpay.paymentLink.create(paymentLinkRequest);
@@ -130,8 +130,8 @@ public class PaymentOrderService {
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("http://localhost:5173/payment-success/" + orderId)
-                .setCancelUrl("http://localhost:5173/payment-cancel/")
+                .setSuccessUrl("https://insuranceplatform.vercel.app/payment-success/" + orderId)
+                .setCancelUrl("https://insuranceplatform.vercel.app/payment-cancel/")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()

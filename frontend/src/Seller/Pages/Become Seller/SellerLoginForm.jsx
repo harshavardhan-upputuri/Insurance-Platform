@@ -62,7 +62,7 @@ const SellerLoginForm = () => {
   };
 
   const handleOAuthLogin = (provider) => {
-    window.location.href = `http://localhost:8083/oauth2/authorization/${provider}`;
+    window.location.href = `https://insuranceplatform.vercel.app/oauth2/authorization/${provider}`;
   };
 
   return (

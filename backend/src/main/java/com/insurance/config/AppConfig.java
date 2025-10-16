@@ -57,7 +57,7 @@ public class AppConfig {
             @Nullable
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(Collections.singletonList("http://localhost:5173"));
+                cfg.setAllowedOrigins(Collections.singletonList("https://insuranceplatform.vercel.app/"));
                 cfg.setAllowedHeaders(Collections.singletonList("*"));
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);

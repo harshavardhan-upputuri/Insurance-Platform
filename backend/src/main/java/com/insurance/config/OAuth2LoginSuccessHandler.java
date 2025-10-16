@@ -97,7 +97,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         String jwt = jwtProvider.generateJwtToken(appAuth);
 
         // ---- Redirect ----
-        String frontendUrl = "http://localhost:5173/oauth2/redirect?jwt=" + jwt + "&role=" + user.getRole();
+        String frontendUrl = "https://insuranceplatform.vercel.app/oauth2/redirect?jwt=" + jwt + "&role=" + user.getRole();
         response.sendRedirect(frontendUrl);
 
         System.out.println("✅ Unified OAuth login success for: " + registrationId + " -> " + email);
