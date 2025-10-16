@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.insurance.model.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>,JpaSpecificationExecutor<Product> {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
     List<Product> findBySellerId(Long id);
 
     @Query("SELECT p FROM Product p " +
@@ -20,7 +20,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>,JpaSpeci
             "LOWER(p.head) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
             "LOWER(p.subName) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
             "LOWER(p.type) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-            "LOWER(p.category.categoryId) LIKE LOWER(CONCAT('%', :query, '%')) )")
+            "LOWER(p.category.name) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
+            "CAST(p.category.id AS string) LIKE CONCAT('%', :query, '%'))")
     List<Product> searchProduct(@Param("query") String query);
 
 }

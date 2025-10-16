@@ -3,6 +3,7 @@ package com.insurance.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.insurance.domain.ApplicationStatus;
 
 import jakarta.persistence.Entity;
@@ -31,7 +32,7 @@ public class ApplicationForm {
     private User user;
 
     @ManyToOne
-    private Product policy;  // the policy being applied for
+    private Product policy;   
 
     private String firstName;
     private String lastName;
@@ -39,17 +40,18 @@ public class ApplicationForm {
     private String email;
     private String phone;
     private double income;
-    private LocalDate dateOfBirth;
+
+    private String dateOfBirth;
     private String gender;
     private boolean married;
     private String address;
     private String pinCode;
 
-    @Lob
-    private byte[] aadharFile;
+     
+    private String aadharFile;
 
-    @Lob
-    private byte[] panFile;     
+   
+    private String panFile;     
 
     @ManyToOne
     private Category category;

@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import com.insurance.service.CustomerUserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +30,7 @@ public class AppConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http,OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
         http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/login").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()   
                         .requestMatchers("/api/products/*/reviews").permitAll()
                         .requestMatchers("/api/**").authenticated()
@@ -36,9 +38,16 @@ public class AppConfig {
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // .oauth2Login(oauth -> oauth.successHandler(oAuth2LoginSuccessHandler))
+                .oauth2Login(oauth -> oauth.successHandler(oAuth2LoginSuccessHandler))
                 //   .httpBasic(basic -> basic.disable())
-                  ;
+                .formLogin()
+                .loginProcessingUrl("/api/auth/login") // REST login endpoint
+                .successHandler((request, response, authentication) -> {
+                    // Do nothing, handled in controller
+                })
+                .failureHandler((request, response, exception) -> {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                });
         return http.build();
     }
 

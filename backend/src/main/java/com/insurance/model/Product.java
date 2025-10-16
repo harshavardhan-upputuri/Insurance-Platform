@@ -22,6 +22,7 @@ public class Product {
 
     @ManyToOne
     private Category category;   // e.g., "termlife"
+    
     private String image;          // store URL or filename of image
     private String name;           // e.g., "HDFC Life Click 2 Protect"
     private String head;           // e.g., "Term Life Plan"

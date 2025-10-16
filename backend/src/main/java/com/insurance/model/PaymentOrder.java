@@ -28,7 +28,7 @@ public class PaymentOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long amount;
+    private Double amount;
 
     private PaymentOrderStatus status=PaymentOrderStatus.PENDING;
     
@@ -36,6 +36,8 @@ public class PaymentOrder {
     private PaymentMethod paymentMethod;
 
     private String paymentLinkId;
+
+    private String paymentId;
 
     @ManyToOne
     private User user;

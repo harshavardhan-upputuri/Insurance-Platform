@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.insurance.domain.USER_ROLE;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"addresses", "usedOffers"})
 public class User {
     
     @Id
@@ -42,7 +43,7 @@ public class User {
 
     private USER_ROLE role=USER_ROLE.ROLE_CUSTOMER;
 
-    @OneToMany
+   @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses=new HashSet<>();
 
     @ManyToMany

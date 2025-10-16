@@ -60,7 +60,7 @@ public class SellerController {
         return new ResponseEntity<>(seller,HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<Seller> createSeller(@RequestBody Seller seller) throws Exception{
         Seller savedSeller=sellerService.creatSeller(seller);
         
