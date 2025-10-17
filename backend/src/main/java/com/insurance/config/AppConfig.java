@@ -2,6 +2,7 @@ package com.insurance.config;
 
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
@@ -25,6 +26,9 @@ import jakarta.servlet.http.HttpServletResponse;
 @Configuration
 @EnableWebSecurity
 public class AppConfig {
+
+    @Value("${FRONTEND_URL}") 
+    private String frontendUrl;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
@@ -57,7 +61,7 @@ public class AppConfig {
             @Nullable
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(Collections.singletonList("https://insuranceplatform.vercel.app/"));
+                cfg.setAllowedOrigins(Collections.singletonList(frontendUrl));
                 cfg.setAllowedHeaders(Collections.singletonList("*"));
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);

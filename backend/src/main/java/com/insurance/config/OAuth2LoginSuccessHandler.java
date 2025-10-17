@@ -3,6 +3,7 @@ package com.insurance.config;
 import java.io.IOException;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -22,6 +23,9 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Value("${FRONTEND_URL}")
+    private String frontendUrl;
 
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
@@ -97,8 +101,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         String jwt = jwtProvider.generateJwtToken(appAuth);
 
         // ---- Redirect ----
-        String frontendUrl = "https://insuranceplatform.vercel.app/oauth2/redirect?jwt=" + jwt + "&role=" + user.getRole();
-        response.sendRedirect(frontendUrl);
+        // String frontendUrl =
+        // "https://insuranceplatform.vercel.app/oauth2/redirect?jwt=" + jwt + "&role="
+        // + user.getRole();
+
+        String redirectUrl = this.frontendUrl + "/oauth2/redirect?jwt=" + jwt + "&role=" + user.getRole();
+        response.sendRedirect(redirectUrl);
 
         System.out.println("✅ Unified OAuth login success for: " + registrationId + " -> " + email);
     }

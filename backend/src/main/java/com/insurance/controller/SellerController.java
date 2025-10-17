@@ -2,6 +2,7 @@ package com.insurance.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,6 +37,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/seller")
 public class SellerController {
+
+    @Value("${FRONTEND_URL}") // Injects the value from your .env file
+    private String frontendUrl;
     
     private final SellerService sellerService;
     private final VerificationCodeRepository verificationCodeRepository;
@@ -73,7 +77,7 @@ public class SellerController {
         verificationCodeRepository.save(verificationCode);
         String subject= "Ecommerce Email verification Code";
         String text="Welcome to Ecommerce ,verify you account using this link ";
-        String frontend_url="https://insuranceplatform.vercel.app/verify-seller/";
+        String frontend_url=this.frontendUrl+"/verify-seller/";
         emailService.sendVerificationOtpEmail(seller.getEmail(), verificationCode.getOtp(), subject, text+frontend_url);
 
         return new ResponseEntity<>(savedSeller,HttpStatus.CREATED);

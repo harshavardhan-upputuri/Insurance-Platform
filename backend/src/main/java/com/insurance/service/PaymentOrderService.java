@@ -29,6 +29,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentOrderService {
 
+    @Value("${FRONTEND_URL}") // Injects the value from your .env file
+    private String frontendUrl;
+
     private final PaymentOrderRepository paymentOrderRepository;
     private final InsuranceOrderRepository insuranceOrderRepository;
 
@@ -108,7 +111,7 @@ public class PaymentOrderService {
             notify.put("email", true);
             paymentLinkRequest.put("notify", notify);
 
-            paymentLinkRequest.put("callback_url", "https://insuranceplatform.vercel.app/payment-success/" + orderId);
+            paymentLinkRequest.put("callback_url",this.frontendUrl+ "/payment-success/" + orderId);
             paymentLinkRequest.put("callback_method", "get");
 
             PaymentLink paymentLink = razorpay.paymentLink.create(paymentLinkRequest);
@@ -130,8 +133,8 @@ public class PaymentOrderService {
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl("https://insuranceplatform.vercel.app/payment-success/" + orderId)
-                .setCancelUrl("https://insuranceplatform.vercel.app/payment-cancel/")
+                .setSuccessUrl(this.frontendUrl+"/payment-success/" + orderId)
+                .setCancelUrl(this.frontendUrl+"/payment-cancel/")
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
