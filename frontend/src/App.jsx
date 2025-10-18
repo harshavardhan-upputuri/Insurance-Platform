@@ -64,7 +64,20 @@ const AppWrapper = () => {
   <Route path="/signup" element={<SignUp />} />
   <Route path="/about" element={<About />} />
     <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+
+   
   {/* Customer Protected Routes */}
+  <Route path="/application/:id" element={
+    <ProtectedRoute role="ROLE_CUSTOMER">
+        <Applications />
+      </ProtectedRoute>
+      } />
+
+       <Route path="/payment-success/:orderId" element={
+      <ProtectedRoute role="ROLE_CUSTOMER">
+        <PaymentSuccess />
+      </ProtectedRoute>
+      }   />
   <Route
     path="/profile/*"
     element={
@@ -73,6 +86,14 @@ const AppWrapper = () => {
       </ProtectedRoute>
     }
   />
+
+  
+
+  <Route path="/insuranceOrder/:id" element={
+    <ProtectedRoute role="ROLE_CUSTOMER">
+        <InsuranceOrder />
+      </ProtectedRoute>} />
+
   <Route
     path="/cart"
     element={
@@ -204,7 +225,7 @@ export default App;
 //         {/* <Route path="/transactions" element={<UserTransactions />} /> */}
 //         <Route path="/login" element={<Login />} />
 //         <Route path="/signup" element={<SignUp />} />
-
+            
 //         <Route path="/payment-success/:orderId" element={<PaymentSuccess />}   />
 
 //         <Route path='/about' element={<About/>}/>
