@@ -61,10 +61,10 @@ const SellerLoginForm = () => {
       });
   };
 
-  const handleOAuthLogin = (provider) => {
-    // window.location.href = `https://insuranceplatform.vercel.app/oauth2/authorization/${provider}`;
-    window.location.href = `${import.meta.env.VITE_API_URL}/oauth2/authorization/${provider}`;
-  };
+  // const handleOAuthLogin = (provider) => {
+  //   // window.location.href = `https://insuranceplatform.vercel.app/oauth2/authorization/${provider}`;
+  //   window.location.href = `${import.meta.env.VITE_API_URL}/oauth2/authorization/${provider}`;
+  // };
 
   return (
     <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
@@ -119,7 +119,7 @@ const SellerLoginForm = () => {
         </button>
 
         {/* Social Logins */}
-        <div className='space-y-4'>
+        {/*<div className='space-y-4'>
           <button
             type="button"
             onClick={() => handleOAuthLogin("google")}
@@ -137,6 +137,7 @@ const SellerLoginForm = () => {
             Sign in with Github
           </button>
         </div>
+        */}
 
         <button
           onClick={handleLogin}
