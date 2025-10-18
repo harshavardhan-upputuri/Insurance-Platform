@@ -43,7 +43,7 @@ public class AppConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .oauth2Login(oauth -> oauth.successHandler(oAuth2LoginSuccessHandler))
-                //   .httpBasic(basic -> basic.disable())
+                  .httpBasic(basic -> basic.disable())
                 .formLogin()
                 .loginProcessingUrl("/api/auth/login") // REST login endpoint
                 .successHandler((request, response, authentication) -> {
@@ -51,9 +51,12 @@ public class AppConfig {
                 })
                 .failureHandler((request, response, exception) -> {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                });
+                })
+                ;
         return http.build();
     }
+
+    
 
     private CorsConfigurationSource corsConfigurationSource() {
         return new CorsConfigurationSource() {

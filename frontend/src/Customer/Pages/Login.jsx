@@ -33,7 +33,8 @@ const Login = () => {
     };
 
     const handleOAuthLogin = (provider) => {
-        window.location.href = `https://insurance-platform-6q8q.onrender.com/oauth2/authorization/${provider}`;
+        // window.location.href = `https://insuranceplatform.vercel.app/oauth2/authorization/${provider}`;
+        window.location.href = `${import.meta.env.VITE_API_URL}/oauth2/authorization/${provider}`;
     };
 
     return (

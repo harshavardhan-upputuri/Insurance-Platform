@@ -14,7 +14,7 @@ export const loginSeller = createAsyncThunk("sellerAuth/loginSeller",
             const res = await api.post("/seller/login", body);
             console.log("seller login response ", res.data);
             localStorage.setItem("jwt", res.data.jwt);
-            localStorage.setItem("role",response.data.role);
+            localStorage.setItem("role",res.data.role);
 
             return res.data;
 
